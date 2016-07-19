@@ -23,7 +23,7 @@ public class GaragemDao {
 	return lista;
 	}
 	
-	public List<GaragemDto> getGaragemRaio(BigDecimal lat, BigDecimal lon, double dist){
+	public List<Object[]> getGaragemRaio(BigDecimal lat, BigDecimal lon, double dist){
 		String sql = "SELECT *, 111.1111 * SQRT(POW(latitude - ?,2) + POW(longitude - ?,2)) AS distancia"
 				+ " FROM garagem WHERE (111.1111 * SQRT(POW(latitude - ?,2) + POW"
 				+ " (longitude - ?,2))) < ?"
@@ -37,15 +37,7 @@ public class GaragemDao {
 		query.setParameter(5, dist);
 		
 		List<Object[]> lista = query.getResultList();
-		List<GaragemDto> garagem = new ArrayList<GaragemDto>(); 
-//		for(Object[] objeto : lista){
-//			GaragemDto garagemDto = new GaragemDto();
-//			garagemDto.set
-//			
-//			
-//		}
-		System.out.println(lista);
-		return garagem;
+		return lista;
 				
 	}
 

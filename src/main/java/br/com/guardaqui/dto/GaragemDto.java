@@ -2,6 +2,7 @@ package br.com.guardaqui.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import br.com.guardaqui.entity.Garagem;
 
@@ -28,6 +29,18 @@ public class GaragemDto {
 		this.titulo = garagem.getTitulo();
 		this.descricao = garagem.getDescricao();
 		this.id_usuario_dono = garagem.getIdUsuarioDono();
+	}
+	
+	public GaragemDto(Object[] objeto){
+		this.id_garagem = (int) objeto[0];
+		this.dt_registro = (Date) objeto[1];
+		this.dt_delete = (Date) objeto[2];
+		this.deleted = ((objeto[3] != null) && (boolean) objeto[3]);
+		this.latitude = (BigDecimal) objeto[4];
+		this.longitude = (BigDecimal) objeto[5];
+		this.titulo = (String) objeto[6];
+		this.descricao = (String) objeto[7];
+		this.id_usuario_dono = objeto[8] != null ? (int) objeto[8] : 0;
 	}
 	
 	public int getId_garagem() {
