@@ -15,6 +15,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="garagem")
 @NamedQuery(name="Garagem.findAll", query="SELECT g FROM Garagem g")
 public class Garagem implements Serializable {
 	private static final long serialVersionUID = 1L;

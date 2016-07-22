@@ -40,5 +40,8 @@ public class GaragemDao {
 		return lista;
 				
 	}
+	 public void inserirGaragem(Garagem garagem){
+		 em.persist(garagem);
+	 }
 
 }

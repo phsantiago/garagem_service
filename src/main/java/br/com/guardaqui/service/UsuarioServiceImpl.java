@@ -30,7 +30,7 @@ public class UsuarioServiceImpl {
 	}
 	
 	public UsuarioDto login(UsuarioDto usuarioDto) throws Exception{
-		String email = usuarioDto.getEmail().toUpperCase();
+		String email = usuarioDto.getEmail().toUpperCase().trim();
 		String senha = usuarioDto.getSenha();
 		
 		Usuario usuario = usuarioDao.getUsuarioEmail(email);
@@ -47,10 +47,22 @@ public class UsuarioServiceImpl {
 		SecureRandom sr = new SecureRandom();
 		Usuario usuario = new Usuario();
 		
-		usuarioDto.setEmail(usuarioDto.getEmail().toUpperCase());
+		usuarioDto.setEmail(usuarioDto.getEmail().toUpperCase().trim());
+		
+		if(usuarioDto.getNome().length() == 0)
+			throw new BusinessException(-1,"Preencha o campo Nome");
+		
+		if(!StringUtils.validName(usuarioDto.getNome()))
+			throw new BusinessException(-1, "Nome inválido");
+			
+		if(usuarioDto.getEmail().length() == 0)
+			throw new BusinessException(-1,"Preencha o campo Email");
 		
 		if(!StringUtils.isEmail(usuarioDto.getEmail()))
 			throw new BusinessException(-1,"Email inválido");
+		
+		if(usuarioDto.getSenha().length() == 0)
+			throw new BusinessException(-1,"Preencha o campo Senha");
 		
 		if(!StringUtils.validPassword(usuarioDto.getSenha())) 
 			throw new BusinessException(-2,"A senha deve conter números e ao menos 8 caracteres");
@@ -67,10 +79,10 @@ public class UsuarioServiceImpl {
 	}
 
 	public UsuarioDto atualizaUsuario(UsuarioDto usuarioDto) throws Exception{
-		Usuario usuario = usuarioDao.getUsuarioEmail(usuarioDto.getEmail());
+		Usuario usuario = usuarioDao.getUsuarioEmail(usuarioDto.getEmail().trim());
 		
-		usuario.setNome(usuarioDto.getNome());
-		usuario.setTelefone(usuarioDto.getTelefone());
+		usuario.setNome(usuarioDto.getNome().trim());
+		usuario.setTelefone(usuarioDto.getTelefone().trim());
 		
 		if(usuarioDto.getSenha() != null){
 			String senhaCrip = CryptoUtils.hashSha512(usuarioDto.getSenha(), usuario.getSalt());

@@ -26,10 +26,17 @@ public class GaragemEndpoint {
 	
 	
 	@GET
+	public Object getAllGaragens(){
+			List<GaragemDto> lista = garagemService.getAll();
+			return lista;
+	}
+	
+	
+	@GET
 	@Path("{lat}/{lon}/{dist}")
 	public Object getGaragemRaio(@PathParam("lat") String lat, @PathParam("lon") String lon, @PathParam("dist")double dist){
 		try{
-			List<GaragemDto> lista = garagemService.getAll(lat, lon, dist);
+			List<GaragemDto> lista = garagemService.getGaragensRaio(lat, lon, dist);
 			return lista;
 			
 		}catch (BusinessException e){
@@ -42,4 +49,19 @@ public class GaragemEndpoint {
 		}
 	}
 	
+	@GET
+	@Path("/registrar")
+	public Object registraGaragem(GaragemDto garagemDto){
+   try{
+	   	garagemService.registra(garagemDto);
+		return new RetornoDto(0,"Garagem inserida com sucesso");
+   }catch (BusinessException e){
+		log.log(Level.INFO, e.getMessage());
+		return new RetornoDto(e.getRetCode(),e.getMessage());
+		
+	}catch (Exception e){
+		log.log(Level.SEVERE, "erro inesperado: ",e);
+		return new RetornoDto(500,"Erro inesperado");
+	}
+	}
 }
